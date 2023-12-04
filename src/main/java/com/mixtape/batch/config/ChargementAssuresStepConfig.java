@@ -13,13 +13,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 @Configuration
-@StepScope
-public class ChargementFormateursStepConfig {
+public class ChargementAssuresStepConfig {
 
+
+
+    @StepScope
     @Bean
-    public FlatFileItemReader<Formateur> formateurItemReader(@Value("#{jobParameters['formateursFile']}") final Resource input) {
+    public FlatFileItemReader<Formateur> assuresItemReader(@Value("#{jobParameters['formateursFile']}") final Resource input) {
         return new FlatFileItemReaderBuilder<Formateur>()
-                .name("FormateurtItemReader")
+                .name("assuresItemReader")
                 .resource(input)
                 .delimited()
                 .delimiter(";")
@@ -28,23 +30,22 @@ public class ChargementFormateursStepConfig {
                 .build();
     }
 
+
     @Bean
-    public ItemWriter<Formateur> formateurItemWriter() {
+    public ItemWriter<Formateur> assuresItemWriter() {
+
         return (items) -> items.forEach(System.out::println);
     }
 
-    @Bean
-    public Step chargementFormateurStep(StepBuilderFactory stepBuilderFactory) {
-        return stepBuilderFactory.get("chargement des formateurs")
+
+
+    public Step chargementAssuresStep(StepBuilderFactory stepBuilderFactory) {
+        return stepBuilderFactory.get("chargement des assurés")
                 .<Formateur, Formateur>chunk(10)
-                .reader(formateurItemReader(null))
-                .writer(formateurItemWriter())
+                .reader(assuresItemReader(null))
+                .writer(assuresItemWriter())
                 .build();
     }
-
-
-
-
 
 
 }

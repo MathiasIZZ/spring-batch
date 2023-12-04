@@ -16,6 +16,7 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
@@ -54,10 +55,10 @@ public class BatchConfig {
     }
 
 
-    @Bean
-    public Job job1(JobBuilderFactory jobBuilderFactory, Step chargementFormateurStep) {
+
+    public Job job1(JobBuilderFactory jobBuilderFactory, Step chargementAssuresStep) {
         return jobBuilderFactory.get("Chargement du premier job")
-                .start(chargementFormateurStep)
+                .start(chargementAssuresStep)
                 .validator(compositeJobParametersValidator())
                 .incrementer(new RunIdIncrementer())
                 .build();
